@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 import os
 
+# Vul hier je token in of gebruik Render's environment variable
 TOKEN = os.getenv("TELEGRAM_TOKEN") or "VUL_HIER_JE_TOKEN_IN"
 
 async def analyse(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -9,10 +10,13 @@ async def analyse(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Gebruik: /analyse <coin>")
         return
     coin = context.args[0]
-    await update.message.reply_text(f"Analyse voor {coin}:
-- RSI: 53
-- Trend: Neutraal
-- Sentiment: Positief")
+    msg = (
+        f"Analyse voor {coin}:\n"
+        "- RSI: 53\n"
+        "- Trend: Neutraal\n"
+        "- Sentiment: Positief"
+    )
+    await update.message.reply_text(msg)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Welkom bij Spongebot! Gebruik /analyse, /ping of /hulp.")
@@ -22,14 +26,10 @@ async def ping(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def hulp(update: Update, context: ContextTypes.DEFAULT_TYPE):
     help_text = (
-        "Beschikbare commando's:
-"
-        "/analyse <coin> - Simpele analyse van een coin
-"
-        "/ping - Check of de bot leeft
-"
-        "/start - Startbericht
-"
+        "Beschikbare commando's:\n"
+        "/analyse <coin> - Simpele analyse van een coin\n"
+        "/ping - Check of de bot leeft\n"
+        "/start - Startbericht\n"
         "/hulp - Dit hulpbericht"
     )
     await update.message.reply_text(help_text)
